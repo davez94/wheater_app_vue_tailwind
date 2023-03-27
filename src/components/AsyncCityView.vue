@@ -96,7 +96,7 @@
         <div 
           v-for="day in weatherData.daily"
           :key="day.dt"
-          class="flex items-center"
+          class="flex flex-1 items-center"
         >
           <p class="flex-1">
             {{
@@ -108,8 +108,42 @@
               )
             }}
           </p>
+          <div class="flex flex-1 gap-2">
+            <p class="flex gap-2 items-center">
+              <img
+                class="w-[50px] h-[25px] border-solid border-b border-black -translate-y-1/2 object-top object-cover"
+                :src="
+                  `http://openweathermap.org/img/wn/01d@2x.png`
+                "
+                alt=""
+              />
+              {{
+                new Date(
+                  day.sunrise * 1000
+                ).toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                })
+              }}
+            </p>
+            <p class="flex gap-2 items-center">
+              <img
+                class="w-[50px] h-[25px] border-solid border-b border-black -translate-y-1/2 object-top object-cover"
+                :src="
+                  `http://openweathermap.org/img/wn/01n@2x.png`
+                "
+                alt=""
+              />
+              {{
+                new Date(
+                  day.sunset * 1000
+                ).toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                })
+              }}
+            </p>
+          </div>
           <img
-            class="w-[50px] h-[50px] object-cover"
+            class="w-[50px] h-[50px] object-bottom"
             :src="
               `http://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`
             "
@@ -141,7 +175,7 @@
   const getWeatherData = async () => {
     try {
       const weatherData = await axios.get(
-        `https://api.openweathermap.org/data/2.5/onecall?lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=c158cfcf3bf6fd59cc6f8c54482a0e99&units=metric`
+        `https://api.openweathermap.org/data/2.5/onecall?alerts=""&lat=${route.query.lat}&lon=${route.query.lng}&exclude={part}&appid=c158cfcf3bf6fd59cc6f8c54482a0e99&units=metric`
       );
 
       // cal current date & time
